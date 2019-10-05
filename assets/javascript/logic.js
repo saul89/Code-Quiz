@@ -2,6 +2,7 @@ var timeEl = document.querySelector(".time"),
 startQuizEl = document.querySelector("#startQuiz"),
 questionEl = document.querySelector("#H1"),
 paragraphEl = document.querySelector("#paragraph"),
+divEl = document.querySelector("#buttonContainer"),
 tagOl = document.createElement("ol"),
 secondsLeft = questions.length * 15;
 
@@ -20,7 +21,9 @@ function setTime() {
 
 function wrong(){
     var tagHr = document.createElement("hr");
+    tagHr.setAttribute("id", "hrEl");
     var tagP = document.createElement("p");
+    tagP.setAttribute("id","pEl");
     document.body.querySelector(".main-content").appendChild(tagHr);
     tagP.textContent = "Wrong!";
     document.body.querySelector(".main-content").appendChild(tagP);
@@ -28,10 +31,19 @@ function wrong(){
 
 function correct(){
     var tagHr = document.createElement("hr");
+    tagHr.setAttribute("id", "hrEl");
     var tagP = document.createElement("p");
+    tagP.setAttribute("id","pEl");
     document.body.querySelector(".main-content").appendChild(tagHr);
     tagP.textContent = "Correct!";
     document.body.querySelector(".main-content").appendChild(tagP);
+}
+
+function cleanPage (){
+    tagOl.remove();
+    questionEl.textContent = "";
+    document.querySelector("#hrEl").remove();
+    document.querySelector("#pEl").remove();   
 }
 
 
@@ -41,6 +53,8 @@ startQuizEl.addEventListener("click", function(event) {
     setTime();
     // remove <p> elements from the page
     paragraphEl.remove();
+    // remove <div> with class buttonContainer
+    divEl.remove();
     // remove Start Quiz button from the page
     startQuizEl.remove();
     // take the title of the question and change the textContent of H1 into it
