@@ -40,12 +40,55 @@ hr{
     width: 100%;
 }
 
+form{
+    margin:auto;
+}
+
+p:last-child{
+    text-align: left;
+    margin: 0;
+    font-style: italic;
+}
+
+#initials{
+    margin: 10px;
+}
+
 #buttonContainer{
     display: flex;
     justify-content: center;
     flex: 1;
     flex-basis: 100%;
-    
+}
+
+#startQuiz, #submitBt, #goBack, #clearhighscores{
+    background: blue;
+    color: white;
+    border: none;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+#goBack, #clearhighscores{
+    margin: 5px;
+}
+
+#startQuiz:hover,#goBack:hover, #clearhighscores:hover, #submitBt:hover{
+    background: green;
+}
+
+#olScoresEl{
+    margin: auto;
+}
+
+#liScoreEl{
+    padding: 5px 30px 5px 30px;
+    border-radius: 0px;
+    background: lightblue;
+    display: list-item;
+    list-style: inherit;
+    color:black;
+
 }
 
 .header {
@@ -70,8 +113,6 @@ hr{
     margin: auto;
 }
 
-p:last-child{
-    text-align: left;
-    margin: 0;
-    font-style: italic;
+.highscoresForm{
+    margin:0;
 }

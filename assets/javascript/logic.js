@@ -6,7 +6,8 @@ var timeEl = document.querySelector(".time"),
   tagOl = document.createElement("ol"),
   secondsLeft = questions.length * 15,
   j = 0,
-  questionsLength = questions.length;
+  questionsLength = questions.length,
+  initials;
 
 // timer function
 function setTime() {
@@ -14,18 +15,7 @@ function setTime() {
     secondsLeft--;
     timeEl.textContent = "Time: " + secondsLeft;
 
-    if (secondsLeft === 0) {
-      clearInterval(timerInterval);
-    }
-  }, 1000);
-}
-
-function setTime() {
-  var timerInterval = setInterval(function() {
-    secondsLeft--;
-    timeEl.textContent = "Time: " + secondsLeft;
-
-    if (secondsLeft === 0) {
+    if (secondsLeft === 0 || j === questionsLength) {
       clearInterval(timerInterval);
     }
   }, 1000);
@@ -58,8 +48,43 @@ function cleanPage() {
   document.querySelectorAll("#button").forEach(e => e.parentNode.removeChild(e));
   tagOl.remove();
   questionEl.textContent = "";
-  setTimeout(function(){ document.querySelector("#hrEl").remove(); }, 1000);
-  setTimeout(function(){ document.querySelector("#pEl").remove(); }, 1000);
+  setTimeout(function(){ document.querySelector("#hrEl").remove(); }, 800);
+  setTimeout(function(){ document.querySelector("#pEl").remove(); }, 800);
+}
+
+function finalPage() {
+  questionEl.textContent = "All done!";
+  var tagP = document.createElement("p");
+  if(secondsLeft > 0){
+    tagP.textContent = "Your final score is " + (secondsLeft-1);
+  } else {
+    tagP.textContent = "Your final score is " + (secondsLeft);
+  }
+  tagP.setAttribute("id","p");
+  document.body.querySelector(".main-content").appendChild(tagP);
+  var tagForm = document.createElement("form");
+  var tagInput = document.createElement("input");
+  var submit = document.createElement("input");
+  tagForm.setAttribute("id","form");
+  //tagForm.setAttribute("action","highscores.html");
+  tagInput.setAttribute("id","initials");
+  tagInput.setAttribute("type","text");
+  tagInput.setAttribute("name","userScore")
+  submit.setAttribute("id","submitBt");
+  submit.setAttribute("type","submit");
+  submit.setAttribute("value","submit");
+  document.body.querySelector(".main-content").appendChild(tagForm);
+  tagForm.textContent = "Enter initials:";
+  tagForm.appendChild(tagInput);
+  tagForm.appendChild(submit);
+  setTimeout(function(){ document.querySelector(".rightWrong").remove(); }, 800);
+  var submitBt = document.querySelector("#submitBt");
+  submitBt.addEventListener("click", function(){
+    initials = document.querySelector("#initials").value;
+    initials = initials.toUpperCase();
+    document.querySelector("#form").setAttribute("action","highscores.html");
+    localStorage.setItem(initials, secondsLeft);
+  });
 }
 
 function nextQuestion() {
@@ -88,22 +113,28 @@ function nextQuestion() {
       if (questions[j]["answer"].includes(button.textContent.slice(3))) {
         correct();
         j++;
-        if (j < questionsLength) {
+        if (j < questionsLength && secondsLeft > 0) {
           nextQuestion();
+        } else{
+          finalPage();
         }
       } else {
         if (secondsLeft > 10) {
           secondsLeft = secondsLeft - 10;
           wrong();
           j++;
-          if (j < questionsLength) {
+          if (j < questionsLength && secondsLeft > 0) {
             nextQuestion();
+          } else{
+            finalPage();
           }
         } else {
           wrong();
           j++;
-          if (j < questionsLength) {
+          if (j < questionsLength && secondsLeft > 0) {
             nextQuestion();
+          } else{
+            finalPage();
           }
         }
       }
